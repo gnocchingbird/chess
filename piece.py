@@ -12,9 +12,10 @@ class Piece_type(enum.Enum):
 colors = ("white", "black", "none")
 
 class Piece(object):
-    def __init__(self, pt: Piece_type = Piece_type.Empty, color: str = None):
+    def __init__(self, pt: Piece_type = Piece_type.Empty, color: str = None, first_move: bool = True):
         self.piece_type = pt
         self.color = color
+        self.first_move = first_move
     
     def __repr__(self):
         if self.piece_type == Piece_type.Empty:

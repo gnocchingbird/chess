@@ -38,6 +38,20 @@ def highlight_matching(window, board: list, match_func, images: dict, color: tup
             if match_func(piece, (x, y)):
                 highlight_field(window, board, piece, x, y, images, color)
 
+def color_black_white(window, board: list):
+    for y, row in enumerate(board):
+        for x, piece in enumerate(row):
+            if piece.color == "white":
+                s = pygame.Surface((100, 100)) # because draw() apparently doesn't support alpha ~ https://stackoverflow.com/questions/6339057/draw-a-transparent-rectangles-and-polygons-in-pygame
+                s.set_alpha(40)
+                s.fill((255, 255, 255))
+                window.blit(s, (x * 100, y * 100))
+            elif piece.color == "black":
+                s = pygame.Surface((100, 100)) # because draw() apparently doesn't support alpha ~ https://stackoverflow.com/questions/6339057/draw-a-transparent-rectangles-and-polygons-in-pygame
+                s.set_alpha(70)
+                s.fill((0, 0, 0))
+                window.blit(s, (x * 100, y * 100))
+
 def log_board(board: list):
     for row in board:
         print(" ", end="")

@@ -16,7 +16,27 @@ def can_move(board: list, piece: Piece, old_pos: tuple, new_pos: tuple):
         return False
 
     if piece.piece_type == Piece_type.Pawn:
-        return True if move_diff(old_pos, new_pos) == (0, -1) else False
+        allowed = []
+        if piece.color == "white":
+            allowed.append((0, -1))
+            if piece.first_move:
+                allowed.append((0, -2)) # first move
+            if board[old_pos[1] - 1][old_pos[0] - 1].color == "black": # front left
+                allowed.append((-1, -1)) # board flipped
+            if board[old_pos[1] - 1][old_pos[0] + 1].color == "black": # front right
+                allowed.append((1, -1))
+            return True if move_diff(old_pos, new_pos) in allowed else False # kinda inefficient to re-fill allowed every time
+        elif piece.color == "black":
+            allowed.append((0, 1))
+            if piece.first_move:
+                allowed.append((0, 2))
+            if board[old_pos[1] + 1][old_pos[0] - 1].color == "white":
+                allowed.append((-1, 1))
+            if board[old_pos[1] + 1][old_pos[0] + 1].color == "white":
+                allowed.append((1, 1))
+            return True if move_diff(old_pos, new_pos) in allowed else False
+        else:
+            return False
 
     if piece.piece_type == Piece_type.Knight:
         diff = abs_diff(old_pos, new_pos)
